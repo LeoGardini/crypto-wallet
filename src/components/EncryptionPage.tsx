@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
@@ -7,6 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import { makeStyles } from "@material-ui/core";
+
+import useGeneratedWallet from "../hooks/useGeneratedWallet";
 
 const useStyles = makeStyles(() => ({
   aligned: { width: "100%", textAlign: "center" },
@@ -17,6 +19,8 @@ function EncryptionPage() {
 
   const [pinCode, setPinCode] = useState<string>("");
   const [pinCodeConfirmation, setPinCodeConf] = useState<string>("");
+
+  useGeneratedWallet([pinCode, pinCodeConfirmation]);
 
   const handleChangePinCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();

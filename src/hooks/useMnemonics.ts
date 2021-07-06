@@ -9,9 +9,8 @@ function useMnemonics(): string[] {
   const store = useSelector((state: IStore) => state);
   const mnemonics = bip39.generateMnemonic().split(" ");
 
-  if (!store.mnemonics.values.length) {
+  !store.mnemonics.values.length &&
     dispatch({ type: "SET_MNEMONICS", payload: mnemonics });
-  }
 
   return store.mnemonics.values;
 }
