@@ -7,11 +7,11 @@ import Stepper from "@material-ui/core/Stepper";
 import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
 
-import ProcedureInfo from "./components/ProcedureInfo";
-import EncryptionPage from "./components/EncryptionPage";
-import GeneratedWallet from "./components/GeneratedWallet";
-import MnemonicGeneration from "./components/MnemonicGeneration";
-import MnemonicConfirmation from "./components/MnemonicConfirmation";
+import ProcedureInfo from "../../components/ProcedureInfo";
+import EncryptionPage from "../../components/EncryptionPage";
+import GeneratedWallet from "../../components/GeneratedWallet";
+import MnemonicGeneration from "../../components/MnemonicGeneration";
+import MnemonicConfirmation from "../../components/MnemonicConfirmation";
 
 interface ISteps {
   description: string;
