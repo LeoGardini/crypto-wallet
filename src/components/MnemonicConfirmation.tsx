@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { DropResult } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -10,7 +10,6 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
 import useMnemonics from "../hooks/useMnemonics";
-import { useEffect } from "react";
 
 const GRID = 10;
 
@@ -18,9 +17,9 @@ type ICardContent = { id: string; content: string };
 
 /* Randomize array in-place using Durstenfeld shuffle algorithm */
 function shuffleArray(array: ICardContent[]) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = array[i];
     array[i] = array[j];
     array[j] = temp;
   }
@@ -35,7 +34,7 @@ function MnemonicGeneration() {
   );
 
   const getListStyle = (isDraggingOver: boolean) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
+    background: isDraggingOver ? "#light" : "#f1f1f1",
     display: "flex",
     padding: GRID,
     overflow: "auto",
@@ -50,7 +49,7 @@ function MnemonicGeneration() {
     borderRadius: "6px",
 
     // change background colour if dragging
-    background: isDragging ? "lightgreen" : "grey",
+    background: isDragging ? "lighgrey" : "#cecece",
 
     // styles we need to apply on draggables
     ...draggableStyle,

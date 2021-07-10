@@ -21,10 +21,17 @@ function GeneratedWallet() {
       <Box className={classes.aligned} style={{ margin: 15 }}>
         <Typography>This is your generated crypto wallet!</Typography>
       </Box>
+
       <Divider style={{ margin: 10 }} />
 
       <Box className={classes.aligned} style={{ margin: 15 }}>
-        <TextField value={wallet} variant="outlined" fullWidth disabled />
+        <TextField
+          value={wallet}
+          variant="outlined"
+          fullWidth
+          disabled
+          multiline
+        />
       </Box>
     </Container>
   );

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { useDispatch } from "react-redux";
+
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Container from "@material-ui/core/Container";
@@ -8,19 +10,16 @@ import Typography from "@material-ui/core/Typography";
 
 import { makeStyles } from "@material-ui/core";
 
-import useGeneratedWallet from "../hooks/useGeneratedWallet";
-
 const useStyles = makeStyles(() => ({
   aligned: { width: "100%", textAlign: "center" },
 }));
 
 function EncryptionPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const [pinCode, setPinCode] = useState<string>("");
-  const [pinCodeConfirmation, setPinCodeConf] = useState<string>("");
-
-  useGeneratedWallet([pinCode, pinCodeConfirmation]);
+  const [pinCode, setPinCode] = useState("");
+  const [pinCodeConf, setPinCodeConf] = useState("");
 
   const handleChangePinCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();
@@ -31,6 +30,12 @@ function EncryptionPage() {
     e.persist();
     setPinCodeConf(e.target.value as unknown as string);
   };
+
+  useEffect(() => {
+    pinCode === pinCodeConf &&
+      dispatch({ type: "SET_PIN_CODE", payload: pinCode });
+    // eslint-disable-next-line
+  }, [pinCodeConf, pinCode]);
 
   return (
     <Container maxWidth="sm">
@@ -62,7 +67,7 @@ function EncryptionPage() {
             fullWidth
             type="password"
             onChange={handleChangePinCodeConf}
-            error={pinCode !== pinCodeConfirmation}
+            error={pinCode !== pinCodeConf}
           />
         </Box>
       </form>
