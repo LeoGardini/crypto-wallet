@@ -3,22 +3,20 @@ import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
-import { makeStyles, createStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 import useMnemonics from "../hooks/useMnemonics";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      justifyContent: "center",
-      flexWrap: "wrap",
-      "& > *": {
-        margin: theme.spacing(0.5),
-      },
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    "& > *": {
+      margin: theme.spacing(0.5),
     },
-  })
-);
+  },
+}));
 
 function MnemonicGeneration() {
   const classes = useStyles();
@@ -31,16 +29,19 @@ function MnemonicGeneration() {
           Write these words in the correct order and keep them in a safe place.
         </Typography>
       </Box>
+
       {mnemonics.map((mnemonic, index) => (
         <Chip
           key={index}
           variant="outlined"
           style={{ fontSize: 13 }}
           clickable
+          color="primary"
           label={mnemonic}
           icon={<p>{index + 1}</p>}
         />
       ))}
+
       <Box style={{ width: "100%", textAlign: "center" }}>
         <Typography>
           1. Write the phrase on paper.

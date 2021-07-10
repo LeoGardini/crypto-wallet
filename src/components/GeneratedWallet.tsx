@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +17,11 @@ const useStyles = makeStyles(() => ({
 function GeneratedWallet() {
   const classes = useStyles();
   const wallet = useGeneratedWallet();
+
+  useEffect(() => {
+    // Stores the wallet hash into the local storage
+    localStorage.setItem("wallet", wallet);
+  });
 
   return (
     <Container maxWidth="sm">

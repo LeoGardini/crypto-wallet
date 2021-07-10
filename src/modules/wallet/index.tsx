@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
@@ -12,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { makeStyles } from "@material-ui/core";
 
+import { IStore } from "../../redux/reducers";
 import ProcedureInfo from "../../components/ProcedureInfo";
 import EncryptionPage from "../../components/EncryptionPage";
 import GeneratedWallet from "../../components/GeneratedWallet";
@@ -64,20 +67,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WalletStepper() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
 
+  const { allowStep } = useSelector((store: IStore) => store.mnemonics);
+
   const handleReset = () => setActiveStep(0);
-  const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
+  const handleNext = () =>
+    activeStep + 1 >= steps.length
+      ? setActiveStep(0)
+      : setActiveStep((prev) => prev + 1);
+
+  useEffect(() => {
+    dispatch({ type: "SET_ALLOW_STEP", payload: true });
+    // eslint-disable-next-line
+  }, [activeStep]);
 
   return (
     <div className={classes.container}>
       <Container maxWidth="lg">
         <Card component={Paper}>
           <Stepper activeStep={activeStep} style={{ height: "100%" }}>
-            {steps.map((step, index) => {
+            {steps.map((step, i) => {
               return (
-                <Step key={index}>
+                <Step key={i}>
                   <StepLabel>{step.description}</StepLabel>
                 </Step>
               );
@@ -87,7 +101,7 @@ export default function WalletStepper() {
           <div className={classes.buttons}>
             {activeStep === steps.length ? (
               <>
-                <Typography>All steps completed - you're finished</Typography>
+                <Typography>All steps completed - you're finished!</Typography>
                 <Box
                   style={{
                     display: "flex",
@@ -115,7 +129,7 @@ export default function WalletStepper() {
                   BACK
                 </Button>
                 <Box style={{ flex: "1 1 auto" }} />
-                <Button onClick={handleNext}>
+                <Button onClick={handleNext} disabled={!allowStep}>
                   {activeStep === steps.length - 1 ? "FINISH" : "NEXT"}
                 </Button>
               </Box>

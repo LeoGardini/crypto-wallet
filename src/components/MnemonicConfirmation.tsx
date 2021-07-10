@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import { useDispatch } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -27,14 +28,16 @@ function shuffleArray(array: ICardContent[]) {
 }
 
 function MnemonicGeneration() {
+  const dispatch = useDispatch();
   const mnemonics = useMnemonics();
+
   const [valid, setValid] = useState(false);
   const [items, setItems] = useState(
     shuffleArray(mnemonics.map((m, i) => ({ id: `item-${i}`, content: m })))
   );
 
-  const getListStyle = (isDraggingOver: boolean) => ({
-    background: isDraggingOver ? "#light" : "#f1f1f1",
+  const getListStyle = (isDragging: boolean) => ({
+    background: isDragging ? "#light" : "#f1f1f1",
     display: "flex",
     padding: GRID,
     overflow: "auto",
@@ -65,7 +68,17 @@ function MnemonicGeneration() {
   };
 
   useEffect(() => {
-    setValid(items.map((item) => item.content).join() === mnemonics.join());
+    dispatch({ type: "SET_ALLOW_STEP", payload: false });
+  }, [dispatch]);
+
+  useEffect(() => {
+    setValid(() => {
+      const isValid =
+        items.map((item) => item.content).join() === mnemonics.join();
+      dispatch({ type: "SET_ALLOW_STEP", payload: isValid });
+      return isValid;
+    });
+    // eslint-disable-next-line
   }, [items, mnemonics]);
 
   function onDragEnd(result: DropResult) {

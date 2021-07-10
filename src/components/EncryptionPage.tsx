@@ -32,8 +32,13 @@ function EncryptionPage() {
   };
 
   useEffect(() => {
-    pinCode === pinCodeConf &&
-      dispatch({ type: "SET_PIN_CODE", payload: pinCode });
+    dispatch({ type: "SET_ALLOW_STEP", payload: false });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const isValid = !!pinCodeConf && pinCode === pinCodeConf;
+    isValid && dispatch({ type: "SET_ALLOW_STEP", payload: isValid });
+    isValid && dispatch({ type: "SET_PIN_CODE", payload: pinCode });
     // eslint-disable-next-line
   }, [pinCodeConf, pinCode]);
 
